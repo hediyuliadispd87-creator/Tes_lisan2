@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tes Lisan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0d1117;
+      --paper: #f5f0e8;
+      --gold: #c9a84c;
+      --gold-light: #e8d49a;
+      --red: #b33a3a;
+      --muted: #6b6456;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+    }
+
+    /* ── SPLASH ── */
+    #splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--ink);
+      z-index: 10;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #splash.hide {
+      opacity: 0;
+      transform: scale(1.04);
+      pointer-events: none;
+    }
+
+    /* decorative ring */
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.15);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    .ring:nth-child(1) { width: 340px; height: 340px; animation-delay: 0s; }
+    .ring:nth-child(2) { width: 480px; height: 480px; animation-delay: 0.8s; }
+    .ring:nth-child(3) { width: 620px; height: 620px; animation-delay: 1.6s; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50%       { opacity: 0.9; transform: scale(1.03); }
+    }
+
+    /* logo area */
+    .logo-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 56px;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: conic-gradient(from 180deg, var(--gold), #7a5c1e, var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+      box-shadow: 0 0 40px rgba(201,168,76,0.35);
+    }
+
+    .badge svg { width: 38px; height: 38px; fill: var(--ink); }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 8vw, 3rem);
+      color: var(--paper);
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    h1 span {
+      color: var(--gold);
+    }
+
+    .sub {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    /* divider */
+    .divider {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.9s 0.15s ease both;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .divider::after { background: linear-gradient(to left, transparent, var(--gold)); }
+
+    .divider span {
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    /* masuk button */
+    .btn-masuk {
+      position: relative;
+      z-index: 1;
+      padding: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      animation: fadeUp 0.9s 0.28s ease both;
+    }
+
+    .btn-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 44px;
+      background: var(--gold);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background 0.25s, transform 0.18s, box-shadow 0.25s;
+      box-shadow: 0 4px 24px rgba(201,168,76,0.3);
+      overflow: hidden;
+    }
+
+    .btn-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background 0.2s;
+    }
+
+    .btn-masuk:hover .btn-inner {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(201,168,76,0.45);
+    }
+
+    .btn-masuk:active .btn-inner {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(201,168,76,0.2);
+    }
+
+    .btn-arrow {
+      transition: transform 0.2s;
+    }
+
+    .btn-masuk:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    /* loading spinner inside button */
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(13,17,23,0.3);
+      border-top-color: var(--ink);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn-masuk.loading .btn-text,
+    .btn-masuk.loading .btn-arrow { display: none; }
+    .btn-masuk.loading .spinner  { display: block; }
+
+    /* footer note */
+    .note {
+      position: absolute;
+      bottom: 28px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      z-index: 1;
+      animation: fadeUp 0.9s 0.4s ease both;
+    }
+
+    /* ── WEBVIEW ── */
+    #webview-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease 0.3s;
+    }
+
+    #webview-wrap.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #webview-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* loading overlay for iframe */
+    #iframe-loader {
+      position: absolute;
+      inset: 0;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      transition: opacity 0.4s;
+    }
+
+    #iframe-loader.done { opacity: 0; pointer-events: none; }
+
+    .loader-ring {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(201,168,76,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    #iframe-loader p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splash">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+
+    <div class="logo-wrap">
+      <div class="badge">
+        <!-- mic icon -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm-1 19.93V23h2v-2.07A8.001 8.001 0 0 0 20 13h-2a6 6 0 0 1-12 0H4a8.001 8.001 0 0 0 7 7.93z"/>
+        </svg>
+      </div>
+      <h1>Tes <span>Lisan</span></h1>
+      <p class="sub">Ujian Berbasis Suara</p>
+    </div>
+
+    <div class="divider"><span>Selamat Datang</span></div>
+
+    <button class="btn-masuk" id="btnMasuk" onclick="handleMasuk()">
+      <div class="btn-inner">
+        <span class="btn-text">Masuk</span>
+        <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        <div class="spinner"></div>
+      </div>
+    </button>
+
+    <p class="note">Tekan tombol untuk memulai sesi tes</p>
+  </div>
+
+  <!-- WEBVIEW -->
+  <div id="webview-wrap">
+    <div id="iframe-loader">
+      <div class="loader-ring"></div>
+      <p>Memuat halaman…</p>
+    </div>
+    <iframe
+      id="frame"
+      src=""
+      allow="microphone; camera; autoplay; clipboard-write; encrypted-media"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  <script>
+    function handleMasuk() {
+      const btn = document.getElementById('btnMasuk');
+      btn.classList.add('loading');
+
+      // Load the iframe
+      const frame = document.getElementById('frame');
+      frame.src = 'https://tes-lisan.onhercules.app/';
+
+      // Show webview container
+      const wrap = document.getElementById('webview-wrap');
+      wrap.classList.add('show');
+
+      // Hide splash after a moment
+      setTimeout(() => {
+        document.getElementById('splash').classList.add('hide');
+      }, 300);
+
+      // Remove loader when iframe loads
+      frame.addEventListener('load', () => {
+        setTimeout(() => {
+          document.getElementById('iframe-loader').classList.add('done');
+        }, 400);
+      });
+    }
+  </script>
+</body>
+</html>
